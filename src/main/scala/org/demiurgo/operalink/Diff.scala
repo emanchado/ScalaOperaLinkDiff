@@ -15,7 +15,10 @@ package org.demiurgo.operalink {
       val newItemProperties = if (newItem == null) Set[String]() else newItem.propertyHash.keys.toSet
       removedProperties = oldItemProperties.diff(newItemProperties)
       addedProperties   = newItemProperties.diff(oldItemProperties)
-      updatedProperties = oldItemProperties & newItemProperties
+      updatedProperties = for (p <- (oldItemProperties & newItemProperties)
+                             if oldItem.propertyHash(p) !=
+                               newItem.propertyHash(p))
+                            yield p
       return this
     }
 

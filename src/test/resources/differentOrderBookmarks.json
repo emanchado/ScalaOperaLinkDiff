@@ -1,0 +1,12 @@
+[
+  {
+    "method": "get",
+    "path": "/rest/bookmark/children",
+    "response": "[{\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C0\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"title\": \"Wikipedia\", \"uri\": \"http://es.wikipedia.org/wiki/Wikipedia:Portada\"}}, {\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C2\", \"properties\": {\"created\": \"2011-05-04T18:56:12Z\", \"title\": \"Opera\", \"uri\": \"http://opera.com\"}}, {\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C1\", \"properties\": {\"created\": \"2011-05-04T18:56:12Z\", \"title\": \"HCoder\", \"uri\": \"http://hcoder.org\"}}]"
+  },
+  {
+    "method": "get",
+    "path": "/rest/bookmark/children",
+    "response": "[{\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C0\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"title\": \"Wikipedia\", \"uri\": \"http://es.wikipedia.org/wiki/Wikipedia:Portada\"}}, {\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C1\", \"properties\": {\"created\": \"2011-05-04T18:56:12Z\", \"title\": \"HCoder.org\", \"uri\": \"http://hcoder.org\"}}, {\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C3\", \"properties\": {\"created\": \"2011-05-04T18:56:12Z\", \"title\": \"Programming Scala\", \"uri\": \"http://programming-scala.labs.oreilly.com\"}}]"
+  }
+]

@@ -96,4 +96,36 @@ class LinkAPIItemDiffSpec extends FlatSpec with ShouldMatchers {
     diffObjectsReverse("E22EE4E0524511E08C68A6DDBCB261C0").oldItem.asInstanceOf[Bookmark].title should equal("Wikipedia: now with icon!")
     diffObjectsReverse("E22EE4E0524511E08C68A6DDBCB261C0").newItem.asInstanceOf[Bookmark].title should equal("Wikipedia")
   }
+
+  it should "calculate out of order element diff correctly" in {
+    api.serverProxy = new TestLinkServerProxy(fakeConsumer,
+                                              fakeAccessToken,
+                                              "differentOrderBookmarks")
+    val bms1 = api.getBookmarks()
+    val bms2 = api.getBookmarks()
+    val diff = new Diff
+    val diffObjects = diff.calculateDiff(bms1, bms2)
+
+    diffObjects.size should equal(4)
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").diffType should equal("update")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").addedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").removedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").updatedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").oldItem.asInstanceOf[Bookmark].title should equal("Wikipedia")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").newItem.asInstanceOf[Bookmark].title should equal("Wikipedia")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C1").diffType should equal("update")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C1").addedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C1").removedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C1").updatedProperties should equal(Set("title"))
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C1").oldItem.asInstanceOf[Bookmark].title should equal("HCoder")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C1").newItem.asInstanceOf[Bookmark].title should equal("HCoder.org")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").diffType should equal("remove")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").addedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").removedProperties should equal(Set("created", "title", "uri"))
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").updatedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C3").diffType should equal("add")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C3").addedProperties should equal(Set("created", "title", "uri"))
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C3").removedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C3").updatedProperties should equal(Set())
+  }
 }

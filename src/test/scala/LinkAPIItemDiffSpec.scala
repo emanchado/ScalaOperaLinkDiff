@@ -67,4 +67,33 @@ class LinkAPIItemDiffSpec extends FlatSpec with ShouldMatchers {
     diffObjectsReverse("E22F0BF0524511E08C69D46C240865CB").removedProperties should equal(bms2(2).propertyHash.keys.toSet)
     diffObjectsReverse("E22F0BF0524511E08C69D46C240865CB").updatedProperties should equal(Set())
   }
+
+  it should "calculate a single element diff correctly" in {
+    api.serverProxy = new TestLinkServerProxy(fakeConsumer,
+                                              fakeAccessToken,
+                                              "bookmarkWithWithoutIcon")
+    val bmWithoutIcon = api.getBookmarks()
+    val bmWithIcon = api.getBookmarks()
+    val diff = new Diff
+    val diffObjects = diff.calculateDiff(bmWithoutIcon, bmWithIcon)
+
+    diffObjects.size should equal(1)
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").diffType should equal("update")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").addedProperties should equal(Set("icon"))
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").removedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").updatedProperties should equal(Set("title"))
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").oldItem.asInstanceOf[Bookmark].title should equal("Wikipedia")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").newItem.asInstanceOf[Bookmark].title should equal("Wikipedia: now with icon!")
+
+    // Reverse diff
+    val diffObjectsReverse = diff.calculateDiff(bmWithIcon, bmWithoutIcon)
+
+    diffObjectsReverse.size should equal(1)
+    diffObjectsReverse("E22EE4E0524511E08C68A6DDBCB261C0").diffType should equal("update")
+    diffObjectsReverse("E22EE4E0524511E08C68A6DDBCB261C0").addedProperties should equal(Set())
+    diffObjectsReverse("E22EE4E0524511E08C68A6DDBCB261C0").removedProperties should equal(Set("icon"))
+    diffObjectsReverse("E22EE4E0524511E08C68A6DDBCB261C0").updatedProperties should equal(Set("title"))
+    diffObjectsReverse("E22EE4E0524511E08C68A6DDBCB261C0").oldItem.asInstanceOf[Bookmark].title should equal("Wikipedia: now with icon!")
+    diffObjectsReverse("E22EE4E0524511E08C68A6DDBCB261C0").newItem.asInstanceOf[Bookmark].title should equal("Wikipedia")
+  }
 }

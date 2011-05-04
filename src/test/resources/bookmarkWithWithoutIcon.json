@@ -1,0 +1,12 @@
+[
+  {
+    "method": "get",
+    "path": "/rest/bookmark/children",
+    "response": "[{\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C0\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"show_in_personal_bar\": true, \"title\": \"Wikipedia\", \"uri\": \"http://es.wikipedia.org/wiki/Wikipedia:Portada\", \"personal_bar_pos\": 5}}]"
+  },
+  {
+    "method": "get",
+    "path": "/rest/bookmark/children",
+    "response": "[{\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C0\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"show_in_personal_bar\": true, \"title\": \"Wikipedia: now with icon!\", \"uri\": \"http://es.wikipedia.org/wiki/Wikipedia:Portada\", \"personal_bar_pos\": 5, \"icon\": \"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABBUlEQVR42sWT0Q2CQBBEiaEI6YAaDP/SAbaAJeCnFEEJUgI2ICVgB9ID5sjbZMxBLsZEEz82sHNzs3NzEE3PyX1T0f8FumvnikPh8n3ueAdsL6311alyw30wjHd49FR5LK03B/W5dmmavgQoBMAgj4/ROE3T2Bo9AvQmACnZJgayCMYiGG76W29rEpfAIgPssAGyROWC6QiJi1P1kQ8iAFkYLuJNbOL+dDg67uIWmEgpOJ7ZLjNMHDACDV4jykyUPQn4AeNKYQa/A8hYxipChIWIQmOIgg4KQGADNhGQZYSZ7GcUFGATZEpHwb4w3dLbT3kdJsUREPjoX2DiehJi/pf6s59pBpYvXAAEFSWjAAAAAElFTkSuQmCC\"}}]"
+  }
+]

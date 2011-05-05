@@ -1,0 +1,12 @@
+[
+  {
+    "method": "get",
+    "path": "/rest/bookmark/children",
+    "response": "[{\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C0\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"show_in_personal_bar\": true, \"title\": \"Wikipedia\", \"uri\": \"http://es.wikipedia.org/wiki/Wikipedia:Portada\", \"personal_bar_pos\": 5}}, {\"item_type\": \"bookmark_folder\", \"id\": \"E22F0BF0524511E08C69D46C240865CA\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"title\": \"Folder\"}, \"children\": [{\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C1\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"title\": \"Inside folder\", \"uri\": \"http://hcoder.org\"}}, {\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C2\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"title\": \"Second inside folder\", \"uri\": \"http://opera.com\"}}]}]"
+  },
+  {
+    "method": "get",
+    "path": "/rest/bookmark/children",
+    "response": "[{\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C0\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"show_in_personal_bar\": true, \"title\": \"Wikipedia\", \"uri\": \"http://es.wikipedia.org/wiki/Wikipedia:Portada\", \"personal_bar_pos\": 5}}, {\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C2\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"title\": \"Now outside folder\", \"uri\": \"http://opera.com\"}}, {\"item_type\": \"bookmark_folder\", \"id\": \"E22F0BF0524511E08C69D46C240865CA\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"title\": \"My Folder\"}, \"children\": [{\"item_type\": \"bookmark\", \"id\": \"E22EE4E0524511E08C68A6DDBCB261C1\", \"properties\": {\"created\": \"2011-03-19T16:28:12Z\", \"title\": \"Inside folder\", \"uri\": \"http://hcoder.org\"}}]}]"
+  }
+]

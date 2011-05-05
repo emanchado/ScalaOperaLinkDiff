@@ -128,4 +128,38 @@ class LinkAPIItemDiffSpec extends FlatSpec with ShouldMatchers {
     diffObjects("E22EE4E0524511E08C68A6DDBCB261C3").removedProperties should equal(Set())
     diffObjects("E22EE4E0524511E08C68A6DDBCB261C3").updatedProperties should equal(Set())
   }
+
+  it should "take into account folders and the elements inside them" in {
+    api.serverProxy = new TestLinkServerProxy(fakeConsumer,
+                                              fakeAccessToken,
+                                              "simpleBookmarkFolders")
+    val bms1 = api.getBookmarks()
+    val bms2 = api.getBookmarks()
+    val diff = new Diff
+    val diffObjects = diff.calculateDiff(bms1, bms2)
+
+    diffObjects.size should equal(4)
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").diffType should equal("update")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").addedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").removedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C0").updatedProperties should equal(Set())
+    diffObjects("E22F0BF0524511E08C69D46C240865CA").diffType should equal("update")
+    diffObjects("E22F0BF0524511E08C69D46C240865CA").addedProperties should equal(Set())
+    diffObjects("E22F0BF0524511E08C69D46C240865CA").removedProperties should equal(Set())
+    diffObjects("E22F0BF0524511E08C69D46C240865CA").updatedProperties should equal(Set("title"))
+    diffObjects("E22F0BF0524511E08C69D46C240865CA").oldItem.asInstanceOf[BookmarkFolder].title should equal("Folder")
+    diffObjects("E22F0BF0524511E08C69D46C240865CA").newItem.asInstanceOf[BookmarkFolder].title should equal("My Folder")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C1").diffType should equal("update")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C1").addedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C1").removedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C1").updatedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").diffType should equal("update")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").addedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").removedProperties should equal(Set())
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").updatedProperties should equal(Set("title", "parent"))
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").oldItem.asInstanceOf[Bookmark].title should equal("Second inside folder")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").oldParentId should equal(Some("E22F0BF0524511E08C69D46C240865CA"))
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").newItem.asInstanceOf[Bookmark].title should equal("Now outside folder")
+    diffObjects("E22EE4E0524511E08C68A6DDBCB261C2").newParentId should equal(None)
+  }
 }

@@ -34,6 +34,10 @@ package org.demiurgo.operalink {
         return "add"
       } else if (newItem == null) {
         return "remove"
+      } else if (removedProperties.size == 0 &&
+                 addedProperties.size   == 0 &&
+                 updatedProperties.size == 0) {
+        return "identical"
       } else {
         return "update"
       }

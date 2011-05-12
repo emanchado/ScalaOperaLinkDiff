@@ -1,5 +1,6 @@
 import org.demiurgo.operalink.LinkAPIItem
 import scala.collection.mutable
+import scala.util.parsing.json.{JSON, JSONArray, JSONObject}
 
 package org.demiurgo.operalink {
   class LinkAPIItemDiff(val oldItem: LinkAPIItem,
@@ -84,6 +85,103 @@ package org.demiurgo.operalink {
         }
       }
       return map.toMap
+    }
+  }
+
+  object DiffApp {
+    def main(args: Array[String]) {
+      if (args.length != 2) {
+        println("ERROR: Need two arguments")
+        println("SYNTAX: DiffApp <dump1.json> <dump2.json>")
+        System.exit(1)
+      }
+
+      val jsonString1 = io.Source.fromFile(args(0)).mkString
+      val jsonString2 = io.Source.fromFile(args(1)).mkString
+      val jsonObject1 = JSON.parseRaw(jsonString1).get.asInstanceOf[JSONArray]
+      val jsonObject2 = JSON.parseRaw(jsonString2).get.asInstanceOf[JSONArray]
+      val linkItemList1 = for { item <- jsonObject1.list }
+                          yield LinkAPIItem.fromJsonObject(item.asInstanceOf[JSONObject])
+      val linkItemList2 = for { item <- jsonObject2.list }
+                          yield LinkAPIItem.fromJsonObject(item.asInstanceOf[JSONObject])
+
+      val differ = new Diff
+      var removed   = mutable.Set[LinkAPIItemDiff]()
+      var added     = mutable.Set[LinkAPIItemDiff]()
+      var updated   = mutable.Set[LinkAPIItemDiff]()
+      var identical = mutable.Set[LinkAPIItemDiff]()
+      val diffResult = differ.calculateDiff(linkItemList1, linkItemList2)
+      for (i <- diffResult.values) {
+        i.diffType match {
+          case "add"       => added += i
+          case "remove"    => removed += i
+          case "update"    => updated += i
+          case "identical" => identical += i
+        }
+      }
+      println("There are " + added.size + " added elements")
+      println("There are " + removed.size + " removed elements")
+      println("There are " + updated.size + " updated elements")
+      println("There are " + identical.size + " identical elements")
+
+      println("")
+      println("Removed elements")
+      println("================")
+      for (element <- removed) {
+        if (element.oldItem.itemType == "bookmark_separator") {
+          println("Bookmark separator")
+        } else {
+          println("Item '" + element.oldItem.propertyHash("title") + "' (" +
+                    element.oldItem.itemType + ")")
+        }
+        for (attr <- element.removedProperties) {
+          println(" * " + attr + ": " + element.oldItem.propertyHash(attr))
+        }
+      }
+
+      println("")
+      println("Updated elements")
+      println("================")
+      for (element <- updated) {
+        if (element.oldItem.itemType == "bookmark_separator") {
+          println("Bookmark separator")
+        } else {
+          println("Item '" + element.oldItem.propertyHash("title") +
+                  (if (element.oldItem.propertyHash("title") != element.newItem.propertyHash("title")) ("' (now " + element.newItem.propertyHash("title") + ") (" + element.newItem.itemType + ")") else "'"))
+        }
+        for (attr <- element.removedProperties) {
+          println(" * " + attr + ": " + element.oldItem.propertyHash(attr) +
+                         " (removed)")
+        }
+        for (attr <- element.updatedProperties) {
+          if (attr == "parent") {
+            println(" * " + attr + ": " + diffResult(element.oldParentId.get).oldItem.propertyHash("title") +
+                    " -> " + diffResult(element.newParentId.get).newItem.propertyHash("title"))
+          } else {
+            println(" * " + attr + ": " + element.oldItem.propertyHash(attr) +
+                    " -> " + element.newItem.propertyHash(attr))
+          }
+        }
+        for (attr <- element.addedProperties) {
+          println(" * " + attr + ": " + element.newItem.propertyHash(attr) +
+                         " (added)")
+        }
+      }
+
+      println("")
+      println("Added elements")
+      println("==============")
+      for (element <- added) {
+        if (element.newItem.itemType == "bookmark_separator") {
+          println("Bookmark separator")
+        } else {
+          println("Item '" + element.newItem.propertyHash("title") + "' (" +
+                    element.newItem.itemType + ")")
+        }
+        for (attr <- element.addedProperties) {
+          println(" * " + attr + ": " + element.newItem.propertyHash(attr))
+        }
+      }
     }
   }
 }

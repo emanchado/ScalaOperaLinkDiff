@@ -1,3 +1,13 @@
+DEPRECATED
+==========
+
+This program is deprecated. It probably doesn't work anymore on more recent versions of Scala anyway.
+
+
+
+
+
+
 Opera Link diff for Scala
 =========================
 
